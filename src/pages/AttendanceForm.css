@@ -1,0 +1,240 @@
+/* AttendanceForm.css - Neumorphic PLN Presensi Digital Theme */
+
+.pln-attendance-page {
+  --pln-primary: #006574;
+  --pln-primary-container: #008093;
+  --pln-on-primary: #ffffff;
+  --pln-on-primary-container: #f8fdff;
+  --pln-surface: #f6faff;
+  --pln-surface-low: #f0f4f9;
+  --pln-surface-high: #e4e9ed;
+  --pln-on-surface: #171c20;
+  --pln-on-surface-variant: #3d494b;
+  --pln-outline-variant: #bdc9cc;
+  --pln-tertiary: #bb0307;
+  --pln-secondary-container: #ffc703;
+
+  background-color: var(--pln-surface);
+  color: var(--pln-on-surface);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Material Symbols Outlined Icon Styling */
+.pln-attendance-page .material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Neumorphic Shadows */
+.neu-raised {
+  box-shadow: -8px -8px 16px #ffffff, 8px 8px 16px rgba(163, 177, 198, 0.45);
+}
+
+.neu-raised-sm {
+  box-shadow: -4px -4px 10px #ffffff, 4px 4px 10px rgba(163, 177, 198, 0.4);
+}
+
+.neu-inset {
+  box-shadow: inset 3px 3px 6px rgba(163, 177, 198, 0.45), inset -3px -3px 6px #ffffff;
+}
+
+/* Typography styles */
+.font-headline-sm {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+}
+
+.font-title-md {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.font-display-lg {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 40px;
+  line-height: 48px;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+.font-body-md {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+.font-body-sm {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+}
+
+.font-label-lg {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.font-label-md {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.font-label-sm {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* Header */
+.pln-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  background-color: rgba(246, 250, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+}
+
+.pln-header-inner {
+  height: 72px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Pulse animation */
+@keyframes pln-ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.pln-pulse {
+  animation: pln-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Main Container */
+.pln-main {
+  width: 100%;
+  flex: 1;
+  padding: 1.5rem 1.5rem 3rem;
+  background-color: var(--pln-surface);
+}
+
+.pln-content-wrap {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Form Inputs */
+.pln-input {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border-radius: 0.75rem;
+  background-color: var(--pln-surface);
+  color: var(--pln-on-surface);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  border: 1px solid transparent;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.pln-input:focus {
+  border-color: rgba(0, 101, 116, 0.4);
+  box-shadow: inset 2px 2px 4px rgba(163,177,198,0.45), inset -2px -2px 4px #ffffff, 0 0 0 1px #006574;
+}
+
+.pln-input::placeholder {
+  color: rgba(61, 73, 75, 0.45);
+}
+
+.pln-input.readonly {
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+/* Signature Canvas inside Neumorphic Container */
+.pln-sig-container {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  border-radius: 0.75rem;
+  background-color: var(--pln-surface);
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.pln-sig-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  cursor: crosshair;
+  z-index: 5;
+  touch-action: none;
+}
+
+/* Footer */
+.pln-footer {
+  width: 100%;
+  background-color: var(--pln-surface-low);
+  padding: 1.5rem 1.5rem;
+  box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.03);
+}
+
+.pln-footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .pln-footer-inner {
+    flex-direction: row;
+  }
+}
