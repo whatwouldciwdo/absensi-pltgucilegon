@@ -64,6 +64,19 @@ const DashboardPage: React.FC = () => {
     });
   };
 
+  const deleteEvent = async (event: Event) => {
+    if (!confirm(`Hapus kegiatan "${event.title}"? Semua data kehadiran terkait juga akan dihapus.`)) return;
+
+    try {
+      const { error } = await supabase.from('events').delete().eq('id', event.id);
+      if (error) throw error;
+      fetchDashboardData();
+    } catch (err) {
+      console.error('Error deleting event:', err);
+      alert('Gagal menghapus kegiatan. Pastikan koneksi Supabase Anda aktif.');
+    }
+  };
+
   if (loading) {
     return (
       <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -389,27 +402,52 @@ const DashboardPage: React.FC = () => {
                       </span>
                     </td>
                     <td style={{ textAlign: 'right' }}>
-                      <Link
-                        to={`/admin/attendance/${event.id}`}
-                        className="neu-raised-sm"
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          padding: '6px 12px',
-                          borderRadius: '6px',
-                          color: '#006574',
-                          backgroundColor: '#f6faff',
-                          fontSize: '12px',
-                          fontWeight: 600,
-                          textDecoration: 'none',
-                        }}
-                      >
-                        Detail
-                        <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>
-                          arrow_forward
-                        </span>
-                      </Link>
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '6px' }}>
+                        <Link
+                          to={`/admin/attendance/${event.id}`}
+                          className="neu-raised-sm"
+                          title="Lihat Daftar Hadir"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            padding: '6px 12px',
+                            borderRadius: '6px',
+                            color: '#006574',
+                            backgroundColor: '#f6faff',
+                            fontSize: '12px',
+                            fontWeight: 600,
+                            textDecoration: 'none',
+                          }}
+                        >
+                          Detail
+                          <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>
+                            arrow_forward
+                          </span>
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => deleteEvent(event)}
+                          className="neu-raised-sm"
+                          title="Hapus Kegiatan"
+                          style={{
+                            width: '30px',
+                            height: '30px',
+                            borderRadius: '6px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#dc2626',
+                            backgroundColor: '#f6faff',
+                            border: 'none',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <span className="material-symbols-outlined" style={{ fontSize: '17px' }}>
+                            delete
+                          </span>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
