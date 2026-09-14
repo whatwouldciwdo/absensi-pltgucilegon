@@ -2,11 +2,11 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import type { Session, User } from '@supabase/supabase-js';
 
-// Akun default admin lokal agar tidak wajib registrasi user di Supabase Auth
+// Akun default admin lokal PLN Indonesia Power UBP Cilegon
 export const DEFAULT_ADMIN = {
   email: 'admin@plnindonesiapower.co.id',
-  password: 'admin', // fleksibel: bisa 'admin' atau 'admin123'
-  fallbackPasswords: ['admin', 'admin123', 'plnip2026'],
+  password: 'Cilegon2026$',
+  fallbackPasswords: ['Cilegon2026$'],
 };
 
 const LOCAL_STORAGE_AUTH_KEY = 'pln_admin_session';

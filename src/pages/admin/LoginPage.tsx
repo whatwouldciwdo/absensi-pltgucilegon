@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth, DEFAULT_ADMIN } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import '../AttendanceForm.css';
 
 const LoginPage: React.FC = () => {
@@ -26,11 +26,6 @@ const LoginPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleFillDefault = () => {
-    setEmail(DEFAULT_ADMIN.email);
-    setPassword('admin');
   };
 
   return (
@@ -139,48 +134,6 @@ const LoginPage: React.FC = () => {
               <p className="font-body-sm" style={{ color: '#3d494b', margin: 0 }}>
                 Masuk untuk mengelola kegiatan dan data absensi
               </p>
-            </div>
-
-            {/* Default Account Hint Box */}
-            <div
-              className="neu-inset"
-              style={{
-                padding: '0.75rem 1rem',
-                borderRadius: '0.75rem',
-                backgroundColor: 'rgba(0, 101, 116, 0.04)',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: '0.75rem',
-              }}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: '11px', fontWeight: 700, color: '#006574', textTransform: 'uppercase' }}>
-                  Akun Default Tersedia
-                </span>
-                <span style={{ fontSize: '12px', color: '#3d494b' }}>
-                  Email: <b>admin</b> | Pass: <b>admin</b>
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={handleFillDefault}
-                className="neu-raised-sm"
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: '6px',
-                  backgroundColor: '#f6faff',
-                  color: '#006574',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  border: 'none',
-                  cursor: 'pointer',
-                  flexShrink: 0,
-                }}
-              >
-                Gunakan
-              </button>
             </div>
 
             {/* Error Message */}
