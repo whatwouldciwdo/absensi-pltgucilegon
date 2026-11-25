@@ -27,6 +27,7 @@ const EventsPage: React.FC = () => {
   const [qrModalDataUrl, setQrModalDataUrl] = useState('');
   const [qrModalIsNew, setQrModalIsNew] = useState(false);
   const [copiedToast, setCopiedToast] = useState(false);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchEvents();
@@ -380,15 +381,23 @@ const EventsPage: React.FC = () => {
   };
 
   const toggleActive = async (event: Event) => {
+    if (togglingId === event.id) return;
+    setTogglingId(event.id);
+    const nextActive = !event.is_active;
     try {
       const { error } = await supabase
         .from('events')
-        .update({ is_active: !event.is_active, updated_at: new Date().toISOString() })
+        .update({ is_active: nextActive, updated_at: new Date().toISOString() })
         .eq('id', event.id);
       if (error) throw error;
-      fetchEvents();
+      setEvents((prev) =>
+        prev.map((item) => (item.id === event.id ? { ...item, is_active: nextActive } : item))
+      );
     } catch (err) {
       console.error('Error toggling event:', err);
+      alert('Gagal mengubah status kegiatan.');
+    } finally {
+      setTogglingId(null);
     }
   };
 
@@ -567,31 +576,59 @@ const EventsPage: React.FC = () => {
                     <td>
                       <button
                         type="button"
+                        role="switch"
+                        aria-checked={event.is_active}
+                        aria-label={`Ubah status ${event.title} menjadi ${event.is_active ? 'Tidak Aktif' : 'Aktif'}`}
+                        title={event.is_active ? 'Klik untuk menonaktifkan' : 'Klik untuk mengaktifkan'}
+                        disabled={togglingId === event.id}
                         onClick={() => toggleActive(event)}
-                        className="neu-inset"
                         style={{
                           display: 'inline-flex',
                           alignItems: 'center',
-                          gap: '6px',
-                          padding: '4px 12px',
-                          borderRadius: '9999px',
+                          gap: '8px',
+                          padding: '2px 4px',
                           border: 'none',
-                          cursor: 'pointer',
-                          backgroundColor: '#f6faff',
-                          color: event.is_active ? '#16a34a' : '#dc2626',
-                          fontSize: '11px',
-                          fontWeight: 700,
+                          background: 'transparent',
+                          cursor: togglingId === event.id ? 'wait' : 'pointer',
+                          opacity: togglingId === event.id ? 0.65 : 1,
                         }}
                       >
                         <span
                           style={{
-                            width: '6px',
-                            height: '6px',
-                            borderRadius: '50%',
-                            backgroundColor: event.is_active ? '#16a34a' : '#dc2626',
+                            position: 'relative',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            width: '38px',
+                            height: '22px',
+                            borderRadius: '9999px',
+                            backgroundColor: event.is_active ? '#16a34a' : '#cbd5e1',
+                            transition: 'background-color 0.2s ease',
+                            boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.18)',
+                            flexShrink: 0,
                           }}
-                        />
-                        {event.is_active ? 'Aktif' : 'Nonaktif'}
+                        >
+                          <span
+                            style={{
+                              width: '16px',
+                              height: '16px',
+                              borderRadius: '50%',
+                              backgroundColor: '#ffffff',
+                              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.25)',
+                              transform: event.is_active ? 'translateX(19px)' : 'translateX(3px)',
+                              transition: 'transform 0.2s ease',
+                            }}
+                          />
+                        </span>
+                        <span
+                          style={{
+                            fontSize: '12px',
+                            fontWeight: 700,
+                            color: event.is_active ? '#16a34a' : '#64748b',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {event.is_active ? 'Aktif' : 'Tidak Aktif'}
+                        </span>
                       </button>
                     </td>
                     <td>
