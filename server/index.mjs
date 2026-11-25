@@ -176,24 +176,24 @@ app.post('/api/db/query', async (req, res) => {
         return res.json({ data: null, error: { message: 'Empty update payload' }, count: null });
       }
 
+      const updateParams = [];
       const setSql = entries
         .map(([k, v]) => {
-          params.push(v ?? null);
-          return `"${k}" = $${params.length}`;
+          updateParams.push(v ?? null);
+          return `"${k}" = $${updateParams.length}`;
         })
         .join(', ');
 
-      // Rebuild where clauses with shifted parameter indices
       const updateWhereClauses = [];
       if (Array.isArray(filters)) {
         for (const f of filters) {
-          params.push(f.value);
-          updateWhereClauses.push(`"${f.column}" = $${params.length}`);
+          updateParams.push(f.value);
+          updateWhereClauses.push(`"${f.column}" = $${updateParams.length}`);
         }
       }
       const updateWhereSql = updateWhereClauses.length > 0 ? `WHERE ${updateWhereClauses.join(' AND ')}` : '';
       const sql = `UPDATE "${table}" SET ${setSql} ${updateWhereSql} RETURNING ${returningCols}`;
-      const result = await pool.query(sql, params);
+      const result = await pool.query(sql, updateParams);
 
       if (single || maybeSingle) {
         return res.json({ data: result.rows[0] ?? null, error: null, count: result.rowCount });
